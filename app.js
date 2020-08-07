@@ -22,7 +22,17 @@ const articleSchema = {
 // Create a new article model. ("Collection name", Schema).
 const Article = mongoose.model("Article", articleSchema)
 
+// Create new document.
+function CreateNewArticle(reqBody) {
+    const newArticle = new Article({
+        title: reqBody.title,
+        content: reqBody.content
+    })
+    return newArticle
+}
+
 app.get('/articles', (req, res) => {
+    // Get all articles from the collection.
     Article.find((error, results) => {
         if (error) { console.log(error) }
         res.send(results)
@@ -30,22 +40,21 @@ app.get('/articles', (req, res) => {
 })
 
 app.post('/articles', (req, res) => {
-
-    // Create a new article document.
-    const newArticle = new Article({
-        title: req.body.title,
-        content: req.body.content
-    })
-
-    // Insert article document into database.
-    newArticle.save((error, doc) => {
+    // Create & insert a new article document into the collection..
+    const newArticle = CreateNewArticle(req.body).save((error, result) => {
         if (error) { res.send(`Error inserting document: ${newArticle}\n${error} `) }
-        else { res.send(`Document inserted successfully:\n${doc}\n`) }
+        else { res.send(`Document inserted successfully:\n${result}\n`) }
+    })
+})
+
+app.delete('/articles', (req, res) => {
+    // Remove all article documents from the collection.
+    Article.deleteMany((error, result) => {
+        if (error) { res.send(`Error deleting all documents from collection: ${error}`) }
+        else { res.send(`Successfully deleted all ${result.deletedCount} documents from the collection `) }
     })
 })
 
 // Start server.
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-    console.log(`Server started on port: ${PORT}`)
-})
+const port = process.env.PORT || 3000
+app.listen(port, () => { console.log(`Server started on port: ${port}`) })
