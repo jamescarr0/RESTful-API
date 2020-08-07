@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const dbConnection = require('./dbConnection')
-const articles = require('./articles/articles.js')
+const articles = require('./routes/articles.js')
 
 const app = express()
 app.use(express.static(__dirname + '/public'))
@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // Set the view engine to EJS
 app.set('view engine', 'ejs')
 
-// Load the outer modules.
+// Load the Router modules.
 app.use('/articles', articles)
 
 // Connect to the database.
