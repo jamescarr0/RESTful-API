@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const dbConnection = require('./dbConnection')
+const database = require('./database/connection')
 const articles = require('./routes/articles/articles.js')
 
 const app = express()
@@ -15,7 +15,7 @@ app.set('view engine', 'ejs')
 app.use('/articles', articles)
 
 // Connect to the database.
-dbConnection.connect()
+database.connect()
 
 // Start server.
 const port = process.env.PORT || 3000

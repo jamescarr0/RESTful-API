@@ -85,7 +85,7 @@ router.route('/:articleTitle')
                     console.log("Error updating document", error)
                     res.send(error)
                 } else {
-                    const msg = "Success: Document updated."
+                    const msg = `Success: ${result.nModified} Document updated.`
                     console.log(msg, result)
                     res.send(msg)
                 }
