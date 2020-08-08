@@ -2,6 +2,7 @@ const express = require('express')
 const Article = require("../../models/Article.js")
 const router = express.Router()
 
+// Log Date, time and request method.
 router.use(function timeLog(req, res, next) {
     console.log(
         "\x1b[33m%s", `[${new Date().toUTCString()}]: ${req.method} - ${req.originalUrl}` + "\x1b[0m")
@@ -93,8 +94,6 @@ router.route('/:articleTitle')
 
     .patch((req, res) => {
         // Update specific fields only in the document.
-        // eg. 'title: <string>' only. PUT will overwrite all fields and if no values are supplied, 
-        // then is missing values will == null.
         // req.body will return an object with specified fields to update.
         Article.updateOne(
             { title: req.params.articleTitle },
@@ -110,6 +109,21 @@ router.route('/:articleTitle')
                 }
             }
         )
+    })
+
+    // Delete a specific document.
+    .delete((req, res) => {
+        Article.deleteOne(
+            {title: req.params.articleTitle},
+            (error, result) => {
+                if (error) { 
+                    console.log(error)
+                    res.send("Error deleting document: ", error) }
+                else {
+                    console.log(result)
+                    res.send(result.deletedCount + " document successfully deleted.")
+                }
+            })
     })
 
 module.exports = router
