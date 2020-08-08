@@ -1,24 +1,6 @@
 const express = require('express')
-const mongoose = require('mongoose')
-
+const Article = require("../../models/Article.js")
 const router = express.Router()
-
-// Create a new article schema.
-const articleSchema = {
-    title: { type: String, required: true },
-    content: { type: String, required: true }
-}
-
-// Create a new article model. ("Collection name", Schema).
-const Article = mongoose.model("Article", articleSchema)
-
-// Create new document.
-function CreateNewArticle(req) {
-    return new Article({
-        title: req.body.title,
-        content: req.body.content
-    })
-}
 
 router.use(function timeLog(req, res, next) {
     console.log(
@@ -45,14 +27,19 @@ router.route('/')
 
     .post((req, res) => {
         // Create & insert a new article document into the collection..
-        const newArticle = CreateNewArticle(req).save((error, result) => {
-            if (error) {
-                res.send(`Error inserting document: ${newArticle}\n${error} `)
-            }
-            else {
-                res.send(`Document inserted successfully:\n${result}\n`)
-            }
+        new Article({
+            title: req.body.title,
+            content: req.body.content
         })
+
+            .save((error, result) => {
+                if (error) {
+                    res.send(`Error inserting document: ${error}`)
+                }
+                else {
+                    res.send(`Document inserted successfully:\n${result}\n`)
+                }
+            })
     })
 
     .delete((req, res) => {
