@@ -35,8 +35,11 @@ router.route('/')
         Article.find((error, results) => {
             if (error) {
                 console.log(error)
+                res.send(error)
+            } else {
+                console.log("Success: Get all")
+                res.send(results)
             }
-            res.send(results)
         })
     })
 
@@ -73,6 +76,7 @@ router.route('/:articleTitle')
         // Get the url parameter.
         const title = req.params.articleTitle
 
+        // Find a specific article
         Article.findOne({ title: title }, (error, result) => {
             if (error) {
                 res.send(`Error finding document title ${title} - ` + error)
@@ -82,6 +86,31 @@ router.route('/:articleTitle')
                 res.send(result)
             }
         })
+    })
+
+    .put((req, res) => {
+
+        // Create the update parameter.
+        // Test if title and content values are supplied.  If not do not add them to the update obejct
+        // this avoids existing document values being set to null.
+        const update = {}
+        if (req.body.title) { update.title = req.body.title }
+        if (req.body.content) { update.content = req.body.content }
+
+        // Update a specific article.
+        Article.updateOne(
+            { title: req.params.articleTitle },
+            { title: req.body.title, content: req.body.content },
+            (error, result) => {
+                if (error) { 
+                    console.log("Error updating document", error) 
+                    res.send(error)
+                } else {
+                    const msg = "Success: Document updated."
+                    console.log(msg, result)
+                    res.send(msg)
+                }
+            })
     })
 
 module.exports = router
