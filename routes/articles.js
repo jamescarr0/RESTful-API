@@ -72,7 +72,6 @@ router.route('/')
 router.route('/:articleTitle')
 
     .get((req, res) => {
-
         // Get the url parameter.
         const title = req.params.articleTitle
 
@@ -89,21 +88,13 @@ router.route('/:articleTitle')
     })
 
     .put((req, res) => {
-
-        // Create the update parameter.
-        // Test if title and content values are supplied.  If not do not add them to the update obejct
-        // this avoids existing document values being set to null.
-        const update = {}
-        if (req.body.title) { update.title = req.body.title }
-        if (req.body.content) { update.content = req.body.content }
-
         // Update a specific article.
         Article.updateOne(
             { title: req.params.articleTitle },
             { title: req.body.title, content: req.body.content },
             (error, result) => {
-                if (error) { 
-                    console.log("Error updating document", error) 
+                if (error) {
+                    console.log("Error updating document", error)
                     res.send(error)
                 } else {
                     const msg = "Success: Document updated."
@@ -111,6 +102,27 @@ router.route('/:articleTitle')
                     res.send(msg)
                 }
             })
+    })
+
+    .patch((req, res) => {
+        // Update specific fields only in the document.
+        // eg. 'title: <string>' only. PUT will overwrite all fields and if no values are supplied, 
+        // then is missing values will == null.
+        // req.body will return an object with specified fields to update.
+        Article.updateOne(
+            { title: req.params.articleTitle },
+            { $set: req.body },
+            (error, result) => {
+                if (error) {
+                    console.log(error)
+                    res.send(error)
+                }
+                else {
+                    console.log(result)
+                    res.send("Number of documents modified: " + result.nModified)
+                }
+            }
+        )
     })
 
 module.exports = router
