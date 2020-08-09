@@ -13,46 +13,30 @@ router.use(function timeLog(req, res, next) {
 
 router.route('/')
 
+    // Get all the article documets from database.
     .get((req, res) => {
-        // Get all articles from the collection.
-        Article.find((error, results) => {
-            if (error) {
-                console.log(error)
-                res.send(error)
-            } else {
-                console.log("Success: Get all")
-                res.send(results)
-            }
-        })
+        Article.findAllArticles()
+            .then(docs => { res.send(docs) })
+            .catch(error => { res.send(error) })
     })
 
+    // Create & insert a new article document into the collection..
     .post((req, res) => {
-        // Create & insert a new article document into the collection..
-        new Article({
+        const article = new Article({
             title: req.body.title,
             content: req.body.content
         })
 
-            .save((error, result) => {
-                if (error) {
-                    res.send(`Error inserting document: ${error}`)
-                }
-                else {
-                    res.send(`Document inserted successfully:\n${result}\n`)
-                }
-            })
+        Article.insertArticle(article)
+            .then(docs => { res.send(docs) })
+            .catch(error => { res.send(error) })
     })
 
     .delete((req, res) => {
         // Remove all article documents from the collection.
-        Article.deleteMany((error, result) => {
-            if (error) {
-                res.send(`Error deleting all documents from collection: ${error}`)
-            }
-            else {
-                res.send(`Successfully deleted all ${result.deletedCount} documents from the collection `)
-            }
-        })
+        Article.deleteAllArticles()
+            .then(docs => { res.send(docs) })
+            .catch(error => { res.send(error) })
     })
 
 /************************* Requests targeting specific articles. *************************/
@@ -60,70 +44,31 @@ router.route('/')
 router.route('/:articleTitle')
 
     .get((req, res) => {
-        // Get the url parameter.
-        const title = req.params.articleTitle
-
-        // Find a specific article
-        Article.findOne({ title: title }, (error, result) => {
-            if (error) {
-                res.send(`Error finding document title ${title} - ` + error)
-            } else if (!result) {
-                res.send("No matches found")
-            } else {
-                res.send(result)
-            }
-        })
+        // Find a specific article - Supply query from url params /:articleTitle.
+        Article.findOneByTitle(req)
+            .then(docs => { res.send(docs) })
+            .catch(error => { res.send(error) })
     })
 
     .put((req, res) => {
-        // Update a specific article.
-        Article.updateOne(
-            { title: req.params.articleTitle },
-            { title: req.body.title, content: req.body.content },
-            (error, result) => {
-                if (error) {
-                    console.log("Error updating document", error)
-                    res.send(error)
-                } else {
-                    const msg = `Success: ${result.nModified} Document updated.`
-                    console.log(msg, result)
-                    res.send(msg)
-                }
-            })
+        // Update all fields in a specific article.
+        Article.updateOneByTitle(req)
+            .then(docs => { res.send(docs) })
+            .catch(error => { res.send(error) })
     })
 
+    // Update(patch) specific fields only in the document.
     .patch((req, res) => {
-        // Update specific fields only in the document.
-        // req.body will return an object with specified fields to update.
-        Article.updateOne(
-            { title: req.params.articleTitle },
-            { $set: req.body },
-            (error, result) => {
-                if (error) {
-                    console.log(error)
-                    res.send(error)
-                }
-                else {
-                    console.log(result)
-                    res.send("Number of documents modified: " + result.nModified)
-                }
-            }
-        )
+        Article.patchOneByTitle(req)
+            .then(docs => { res.send(docs) })
+            .catch(error => { res.send(error) })
     })
 
     // Delete a specific document.
     .delete((req, res) => {
-        Article.deleteOne(
-            {title: req.params.articleTitle},
-            (error, result) => {
-                if (error) { 
-                    console.log(error)
-                    res.send("Error deleting document: ", error) }
-                else {
-                    console.log(result)
-                    res.send(result.deletedCount + " document successfully deleted.")
-                }
-            })
+        Article.deleteArticleByTitle(req)
+            .then(docs => { res.send(docs) })
+            .catch(error => { res.send(error) })
     })
 
 module.exports = router

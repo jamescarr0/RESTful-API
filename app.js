@@ -17,6 +17,11 @@ app.use('/articles', articles)
 // Connect to the database.
 database.connect()
 
+// Index.html
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/index.html")
+})
+
 // Start server.
 const port = process.env.PORT || 3000
 app.listen(port, () => { console.log(`Server started on port: ${port}`) })
