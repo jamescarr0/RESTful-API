@@ -1,12 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESTful API</title>
 </head>
+
 <body>
-    <h1>README - Todo</h1>
-    <a href="http://localhost:3000/articles">/articles</a>
+    <h1>RESTful API Example</h1>
+    <p>Ensure mongod is running: run <em>mongod <strong></em>or<em></strong> mongod --config /path/to/conf --fork</em>
+    </p>
+    <p>Install dependencies with: npm install</p>
+    <p>To start API run: npm start</p>
+    <p>To start API in development mode run: npm run dev</p>
+    <hr>
+    <p>Use an API development tool such as postman or curl to make the various HTTP requests.</p>
+    <p>Alternatively use the <a href="#quick-start">quick start</a> section on this page to make a GET & POST
+        request.</p>
+    <p>A new mongo database will be created called 'restfulDB' with the collection 'articles'</p>
+    <hr>
+    <p><strong>GET</strong> /articles returns all articles.</p>
+    <p><strong>GET</strong> /articles&lt;article title&gt; returns the specified article.</p>
+    <p><strong>POST</strong> /articles creates an inserts a new article document. (title: "Article title", content:
+        "Article content")
+    </p>
+    <p><strong>PUT</strong> /articles/&lt;article title&gt; updates ALL fields in the article document. {title: "Value
+        to update",
+        content: "Value to update"} If
+        either key is missing, its respective value will be set to null. </p>
+    <p><strong>PATCH</strong> /articles/&lt;article title&gt; unlike PUT, PATCH will only update the field supplied. For
+        Example if you
+        want to make changes to the content only. {content: "Make changes"}. {title: "Value"} will not be affected and
+        its orignal value will remain the same. </p>
+    <p><strong>DELETE</strong> /articles will <strong>delete ALL</strong> articles in the database.</p>
+    <p><strong>DELETE</strong> /articles/&lt;article title&gt; will delete the specified article ONLY.</p>
+    <hr>
+    <h2 id="quick-start">Quick start</h2>
+    <strong>GET all articles.</strong><br><br>
+    <p>Find all articles: <a href="http://localhost:3000/articles">GET - /articles</a></p>
+    <hr>
+    <strong>POST a specific article.</strong><br><br>
+    <form action="/articles" method="POST">
+        <label for="title">Title: </label><br>
+        <input type="text" name="title" placeholder="Article title."><br><br>
+        <label for="content">Content: </label><br>
+        <textarea type="text" name="content" placeholder="Article content." rows="6" cols="50"></textarea><br>
+        <button type="submit">POST</button>
+    </form>
 </body>
+
 </html>
