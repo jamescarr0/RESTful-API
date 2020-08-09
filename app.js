@@ -8,9 +8,6 @@ const app = express()
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 
-// Set the view engine to EJS
-app.set('view engine', 'ejs')
-
 // Load the Router modules.
 app.use('/articles', articles)
 
