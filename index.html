@@ -9,6 +9,7 @@
 
 <body>
     <h1>RESTful API Example</h1>
+    <strong><p>API is used to CRUD simple articles consiting of a title and content.</p></strong>
     <p>Ensure mongod is running: run <em>mongod <strong></em>or<em></strong> mongod --config /path/to/conf --fork</em>
     </p>
     <p>Install dependencies with: npm install</p>
@@ -20,28 +21,28 @@
         request.</p>
     <p>A new mongo database will be created called 'restfulDB' with the collection 'articles'</p>
     <hr>
-    <p><strong>GET</strong> /articles returns all articles.</p>
-    <p><strong>GET</strong> /articles&lt;article title&gt; returns the specified article.</p>
-    <p><strong>POST</strong> /articles creates an inserts a new article document. (title: "Article title", content:
+    <p><strong>GET</strong> /api/ returns all articles.</p>
+    <p><strong>GET</strong> /api/&lt;article title&gt; returns the specified article.</p>
+    <p><strong>POST</strong> /api/ creates an inserts a new article document. (title: "Article title", content:
         "Article content")
     </p>
-    <p><strong>PUT</strong> /articles/&lt;article title&gt; updates ALL fields in the article document. {title: "Value
+    <p><strong>PUT</strong> /api/&lt;article title&gt; updates ALL fields in the article document. {title: "Value
         to update",
         content: "Value to update"} If
         either key is missing, its respective value will be set to null. </p>
-    <p><strong>PATCH</strong> /articles/&lt;article title&gt; unlike PUT, PATCH will only update the field supplied. For
+    <p><strong>PATCH</strong> /api/&lt;article title&gt; unlike PUT, PATCH will only update the field supplied. For
         Example if you
         want to make changes to the content only. {content: "Make changes"}. {title: "Value"} will not be affected and
         its orignal value will remain the same. </p>
-    <p><strong>DELETE</strong> /articles will <strong>delete ALL</strong> articles in the database.</p>
-    <p><strong>DELETE</strong> /articles/&lt;article title&gt; will delete the specified article ONLY.</p>
+    <p><strong>DELETE</strong> /api/ will <strong>delete ALL</strong> articles in the database.</p>
+    <p><strong>DELETE</strong> /api/&lt;article title&gt; will delete the specified article ONLY.</p>
     <hr>
     <h2 id="quick-start">Quick start</h2>
     <strong>GET all articles.</strong><br><br>
-    <p>Find all articles: <a href="http://localhost:3000/articles">GET - /articles</a></p>
+    <p>Find all articles: <a href="http://localhost:3000/api">GET - /api</a></p>
     <hr>
     <strong>POST a specific article.</strong><br><br>
-    <form action="/articles" method="POST">
+    <form action="/api" method="POST">
         <label for="title">Title: </label><br>
         <input type="text" name="title" placeholder="Article title."><br><br>
         <label for="content">Content: </label><br>

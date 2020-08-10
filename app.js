@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const database = require('./database/connection')
-const api = require('./routes/API.js')
+const api = require('./api-app/article-route.js')
 
 const app = express()
 app.use(express.static(__dirname + '/public'))
