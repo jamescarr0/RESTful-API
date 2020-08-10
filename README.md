@@ -11,7 +11,7 @@ or
 
 To start API in development mode run: **npm run dev**
 
-A new mongo database will be created called 'restfulDB' with the collection 'articles'
+A new mongo database will be created called 'restfulDB' with the collection 'articles'.
 
 <hr />
 
