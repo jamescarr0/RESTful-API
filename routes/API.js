@@ -1,5 +1,5 @@
 const express = require('express')
-const Article = require("../../models/Article.js")
+const Article = require("../models/Article.js")
 const router = express.Router()
 
 // Log Date, time and request method.
