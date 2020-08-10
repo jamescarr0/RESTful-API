@@ -21,14 +21,14 @@ Use an API development tool such as postman or curl to make the various HTTP req
 
 **GET** /articles returns all articles.
 
-**GET** /articles<article title> returns the specified article.
+**GET** /articles/&lt;article title&gt;returns the specified article.
 
 **POST** /articles creates an inserts a new article document. (title: "Article title", content: "Article content")
 
-**PUT** /articles/<article title> updates ALL fields in the article document. {title: "Value to update", content: "Value to update"} If either key is missing, its respective value will be set to null.
+**PUT** /articles/&lt;article title&gt; updates ALL fields in the article document. {title: "Value to update", content: "Value to update"} If either key is missing, its respective value will be set to null.
 
-**PATCH** /articles/<article title> unlike PUT, PATCH will only update the field supplied. For Example if you want to make changes to the content only. {content: "Make changes"}. {title: "Value"} will not be affected and its orignal value will remain the same.
+**PATCH** /articles/&lt;article title&gt; unlike PUT, PATCH will only update the field supplied. For Example if you want to make changes to the content only. {content: "Make changes"}. {title: "Value"} will not be affected and its orignal value will remain the same.
 
 **DELETE** /articles will delete ALL articles in the database.
 
-**DELETE** /articles/<article title> will delete the specified article ONLY.
+**DELETE** /articles/&lt;article title&gt; will delete the specified article ONLY.
